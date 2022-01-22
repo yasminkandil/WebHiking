@@ -27,50 +27,50 @@ opacity: 2;
   color: black;
 }
 
-/* Float cancel and delete buttons and add an equal width */
+
 .modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
+  display: none; 
+  position: fixed; 
+  z-index: 1; 
   left: 0;
   top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
+  width: 100%; 
+  height: 100%; 
+  overflow: auto; 
   background-color: #474e5d;
   padding-top: 50px;
 }
 
-/* Modal Content/Box */
+
 .modal-content {
   background-color: #fefefe;
-  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+  margin: 5% auto 15% auto; 
   border: 1px solid #888;
-  width: 80%; /* Could be more or less, depending on screen size */
+  width: 80%; 
 }
 .cancelbtn, .deletebtn {
   float: left;
   width: 50%;
 }
 
-/* Add a color to the cancel button */
+
 .cancelbtn {
   background-color: #ccc;
   color: black;
 }
 
-/* Add a color to the delete button */
+
 .deletebtn {
   background-color: #f44336;
 }
 
-/* Add padding and center-align text to the container */
+
 .container {
   padding: 16px;
   text-align: center;
 }
 
-/* The Close Button */
+
 .close {
   color: #aaaaaa;
   float: right;
@@ -120,12 +120,12 @@ if (!$conn) {
       echo $del;
       if($del)
 {
-    mysqli_close($conn); // Close connection
-    header("location:AdminGroups.php"); // redirects to all records page
+    mysqli_close($conn); 
+    header("location:AdminGroups.php"); 
     exit; 
 }
 else {
-  echo "Error deleting record"; // display error message if not delete
+  echo "Error deleting record"; 
 }
 }
 ?>">Delete</button>
@@ -141,22 +141,22 @@ else {
   <script type="text/javascript">
     var modal = document.getElementById("myModal");
 
-// Get the button that opens the modal
+
 var btton = document.getElementById("myBtn");
 
-// Get the <span> element that closes the modal
+
 var span = document.getElementsByClassName("close")[0];
-// When the user clicks the button, open the modal 
+
 btton.onclick = function() {
   modal.style.display = "block";
 }
 
-// When the user clicks on <span> (x), close the modal
+
 span.onclick = function() {
   modal.style.display = "none";
 }
 
-// When the user clicks anywhere outside of the modal, close it
+
 window.onclick = function(event) {
   if (event.target == modal) {
     modal.style.display = "none";
