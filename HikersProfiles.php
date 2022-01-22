@@ -15,6 +15,18 @@
 </style>
 </head>
 <body>
+	<?php
+  include_once "StyleHome.html";?>
+  <div class="navbar">
+     <a href="Hikerhomepage.php">Home</a></li>
+      <a href="Administrator.php">Add/Delete Admins</a>
+       <a href="messages.php">Chat</a> 
+      <a href="AdminGroups.php">Add/Edit/Delete groups</a>
+      <a href="HikersProfiles.php">Hikers Profiles</a>
+      <a href="HikersTrips.php">Hikers Trips</a>
+      <a href="OrdersSearch.php">Search Orders</a>
+
+  </div>
 
 <div class="container,table">
 	<h2 style="color:#00008B;text-align:center;">Hikers Profiles</h2>
@@ -27,7 +39,6 @@
 			<th>Address</th>
 			<th>Email</th>
 			<th>Phone Number</th>
-			<th>Group Number</th>
 			<th>Age</th>
 			<th>Gender</th>
 		
@@ -41,7 +52,7 @@ if(!$db)
 {
     die("Connection failed: " . mysqli_connect_error());
 }
-$records = mysqli_query($db,"select * from user where Type='hiker'"); // fetch data from database
+$records = mysqli_query($db,"select * from user where Type='hiker'"); 
 
 while($data = mysqli_fetch_array($records))
 {
@@ -54,7 +65,6 @@ while($data = mysqli_fetch_array($records))
     <td><?php echo $data['Address']; ?></td>
     <td><?php echo $data['Email']; ?></td>
     <td><?php echo $data['PhoneNumber']; ?></td>
-    <td><?php echo $data['GroupNumb']; ?></td>
     <td><?php echo $data['Age']; ?></td>
     <td><?php echo $data['Gender']; ?></td>
   </tr>	
