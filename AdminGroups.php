@@ -14,6 +14,18 @@
 </style>
 </head>
 <body>
+	<?php
+  include_once "StyleHome.html";?>
+  <div class="navbar">
+     <a href="Hikerhomepage.php">Home</a></li>
+      <a href="Administrator.php">Add/Delete Admins</a>
+       <a href="messages.php">Chat</a> 
+      <a href="AdminGroups.php">Add/Edit/Delete groups</a>
+      <a href="HikersProfiles.php">Hikers Profiles</a>
+      <a href="HikersTrips.php">Hikers Trips</a>
+      <a href="OrdersSearch.php">Search Orders</a>
+
+  </div>
 	
 	<div class ="container, table">
 	<h2 style="color:#00008B;text-align:center">Hiking Groups</h2>
@@ -24,7 +36,6 @@
 		<th>Group Name</th>
 		<th>Group Location</th>
 		<th>Participants</th>
-		<th>Rate</th>
 		<th>Location Link</th>
 		<th>Main Picture for group</th>
 		<th>1st Picture</th>
@@ -63,7 +74,6 @@ while($row = mysqli_fetch_array($records))
 <td><?php echo $row['GroupName']?></td>
 <td><?php echo $row['GroupLocation']?></td>
 <td><?php echo $row['Participants']?></td>
-<td><?php echo $row['Rate']?></td>
 <td><?php echo $row['DestinationLink']?></td>
 <td><?php echo $row['mainphoto']?></td>
 <td><?php echo $row['Photo1']?></td>
