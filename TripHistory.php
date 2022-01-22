@@ -15,7 +15,15 @@
 </head>
 <body>
 <?php
-session_start();?>
+session_start();
+include_once "StyleHome.html"?>
+<div class="navbar">
+      <a href="Hikerhomepage.php">Home</a>
+    <a href="Contact_Us.php">Contact us</a>
+    <a href="rogrogshop.php">Cart <span class="glyphicon glyphicon-shopping-cart"></span> </a>
+    <a href="ChooseTrip.php">Choose Trip</a>
+
+  </div>
  <div class="container,table">
 	<h2 style="color:#00008B;text-align:center;">Your Booked Trips</h2>
 	<table class="table table-striped table-bordered">
@@ -42,7 +50,7 @@ if(!$db)
 {
     die("Connection failed: " . mysqli_connect_error());
 }
-$records = mysqli_query($db,"select * from groups join tripforhiker on (Group_ID=GroupSelected) "); // fetch data from database
+$records = mysqli_query($db,"select * from groups join tripforhiker on (Group_ID=GroupSelected) where user_id=".$_SESSION['ID']); 
 
 while($data = mysqli_fetch_array($records))
 {
