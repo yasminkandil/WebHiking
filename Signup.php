@@ -106,7 +106,7 @@ function validateEmail(field){
 		fail+=validateFName(form.fname.value);
 		fail+=validateLName(form.lname.value);
 		fail+=validateEmail(form.email.value);
-		fail+=validateEmail(form.mob.value);
+		fail+=validateMob(form.mob.value);
 		
 
 		if(fail==''){
@@ -148,45 +148,44 @@ function validateEmail(field){
 <label style="color:#00008B;font:bold;" for="pass"><span class="glyphicon glyphicon-lock"></span> Password:</label>
 <input type="password" name="pass" id="passs" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" class="form-control" placeholder="Enter a password"required>
 <div class="form-check">
-  <input class="form-check-input" type="checkbox"  name="show" onclick="showpass()">
-  <label style="color:#00008B;" class="form-check-label" for="show">
-    <span class="glyphicon glyphicon-eye-open"></span> Show Password:
-  </label>
+<input class="form-check-input" type="checkbox"  name="show" onclick="showpass()">
+<label style="color:#00008B;" class="form-check-label" for="show">
+<span class="glyphicon glyphicon-eye-open"></span> Show Password:
+</label>
 </div>
 <label style="color:#00008B;font:bold;" for="cpass"><span class="glyphicon glyphicon-lock"></span> Confirm Password:</label>
 <input type="password" name="cpass" placeholder="confirm password" class="form-control" required></center>
 	<br>
-	<label style="color:#00008B;font:bold;" for="mob"><span class="glyphicon glyphicon-phone"></span> Mobile:</label>
+<label style="color:#00008B;font:bold;" for="mob"><span class="glyphicon glyphicon-phone"></span> Mobile:</label>
 <input type="text" name="mob" placeholder="Enter Mobile number" class="form-control" required></center>
 	<br>
-	 <label style="color:#00008B;font:bold" class="mr-sm-2" for="Days"> Type:</label>
+<label style="color:#00008B;font:bold" class="mr-sm-2" for="Days"> Type:</label>
 	<div class="col-auto my-1">
-	<select class="custom-select mr-sm-2" name="typee" required>
+<select class="custom-select mr-sm-2" name="typee" required>
 		<?php
 		$typee=array('hiker','admin');
 		for($i=0;$i<count($typee);$i++)
 			echo "<option>".$typee[$i]."</option>";
 		?>
 		
-	</select>
+</select>
 	<br>
 <label style="color:#00008B;font:bold" for="uploadPic"><span class="glyphicon glyphicon-camera"></span> Upload your new picture here:</label>
 <input type="file" class="form-control" id="img" name="img" accept="image/png, image/gif, image/jpeg">
 
     <br>
     <div class="form-check">
-  <input class="form-check-input" type="radio" name="g" id="Radio1" value="Male">
-  <label style="color:#00008B;font:bold" class="form-check-label" for="Radio1">
+<input class="form-check-input" type="radio" name="g" id="Radio1" value="Male">
+<label style="color:#00008B;font:bold" class="form-check-label" for="Radio1">
     Male
-  </label>
+ </label>
 </div>
 <div class="form-check">
-  <input class="form-check-input" type="radio" name="g" id="Radio2" value="Female">
-  <label style="color:#00008B;font:bold" class="form-check-label" for="Radio2">
+<input class="form-check-input" type="radio" name="g" id="Radio2" value="Female">
+<label style="color:#00008B;font:bold" class="form-check-label" for="Radio2">
     Female
-  </label>
+</label>
 </div>
-		
 	    	<?php
            $days = array();
            for ($x = 1; $x <= 31; $x++)
@@ -244,13 +243,17 @@ function validateEmail(field){
 </form>
 <?php
 
-//echo $target_file;
+function OurError($errno,$errstr){
+	echo "ERROR $errstr";
+	die();
+}
+set_error_handler("OurError",E_USER_WARNING);
 
 if(isset($_POST["signed"]))
 {
 $dir='img/';
-	$fileName=$_FILES['img']['name'];
-	move_uploaded_file($_FILES['img']['tmp_name'], $dir.$fileName);
+$fileName=$_FILES['img']['name'];
+move_uploaded_file($_FILES['img']['tmp_name'], $dir.$fileName);
 $fname=filter_var($_POST['fname'],FILTER_SANITIZE_STRING);
 $lname=filter_var($_POST['lname'],FILTER_SANITIZE_STRING);
 $email=filter_var($_POST['email'],FILTER_SANITIZE_EMAIL);
@@ -266,15 +269,23 @@ $BD = new DateTime($day.$month.$year);
 $Curr = new Datetime(date('m.d.y'));
 $diff = $Curr->diff($BD);
 $age=$diff->y;
-//include_once("conn.php");
 $conn=new mysqli("localhost","root","","hikingpr");
 $slquery = "SELECT * FROM user WHERE Email = '$email'";
 $selectresult = mysqli_query($conn,$slquery);
 if(isset($_POST['signed'])){
 	$row = mysqli_fetch_assoc($selectresult);
+	if(filter_var($email,FILTER_VALIDATE_EMAIL)===false){
+			trigger_error("<div class='alert alert-danger alert-dismissible'>
+    <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+		<strong>This is not an Email!</strong>
+	</div>");
+	}
 	if(empty($_POST['email']))
 	{
-		$errormessage="Email is required";
+		trigger_error("<div class='alert alert-danger alert-dismissible'>
+    <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+		<strong>Email required!</strong>
+	</div>");
 	}
 
     if (mysqli_num_rows($selectresult) > 0) {
@@ -282,74 +293,65 @@ if(isset($_POST['signed'])){
         
         if($email==isset($row['Email']))
         {
-           ?><div class="alert alert-danger alert-dismissible">
-    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+           trigger_error("<div class='alert alert-danger alert-dismissible'>
+    <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
 		<strong>This email has an account already!</strong>
-	</div>
-	<?php
+	</div>");
             	
         }
     }
-	if($password!=$cpassowrd){
+	else if($password!=$cpassowrd){
 	
-            	?>
-            	<div class="alert alert-danger alert-dismissible">
-    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-		<strong>The password and the confirm password don't match!</strong>
-	</div>
-            		<?php
+            	 trigger_error("<div class='alert alert-danger alert-dismissible'>
+    <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+		<strong>Password and confirm password don't match!</strong>
+	</div>");
+            		
 	}
-	else
+	else 
 	{
 		if($_POST['typee']=='hiker'){
 			$hiker="hiker";
-      $sql="INSERT INTO user(FirstName,LastName,Email,Password,PhoneNumber,Address,Photo,Age,Gender,type) VALUES (
-      '".$fname."','".$lname."','".$email."','".$password."','".$mob."','".$address."','".$_FILES['img']['name']."','".$age."','".$gender."','".$hiker."')" ;
-      echo "$sql";
+			 $ran_id = rand(time(), 100000000);
+       $status = "Active now";
+   $sql="INSERT INTO user(unique_id,FirstName,LastName,Email,Password,PhoneNumber,Address,Photo,Age,Gender,type,status) VALUES ('".$ran_id."','".$fname."','".$lname."','".$email."','".$password."','".$mob."','".$address."','".$_FILES['img']['name']."','".$age."','".$gender."','".$hiker."','".$status."')" ;
       $result=mysqli_query($conn,$sql);
-      if($result)
-      {
-      
-      	?>
-            	<div class="alert alert-success alert-dismissible">
-    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-		<strong>You have created your account successfully!</strong>
-	</div>
-            		<?php
-            		header("Location:Hikerhomepage.php");
+      try{
+      if (!$result) 
+      	throw new Exception("Error");
+      	
       }
-
+      catch(Exception $e)
+      {
+      	echo "Message:",$e->getMessage();
+      }
+           	echo "<div class='alert alert-success alert-dismissible'> <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><strong>You have created your account successfully!</strong>
+	             </div>";
+            		header("Hikerhomepage.php");
     }
-	    
-
     if($_POST['typee']=='admin'){
 	$admin='admin';
-	 $sql="INSERT INTO user(FirstName,LastName,Email,Password,PhoneNumber,Address,Photo,Age,Gender,type) VALUES (
+	 $ran_id = rand(time(), 100000000);
+       $status = "Active now";
+	 $sql="INSERT INTO user(unique_id,FirstName,LastName,Email,Password,PhoneNumber,Address,Photo,Age,Gender,type) VALUES ('".$ran_id."',
       '".$fname."','".$lname."','".$email."','".$password."','".$mob."','".$address."','".$_FILES['img']['name']."','".$age."','".$gender."','".$admin."')" ;
-      echo "$sql";
       $result=mysqli_query($conn,$sql);
-      if($result)
-      {
-
-      
-      	?>
-            	<div class="alert alert-success alert-dismissible">
-    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-		<strong>You have created your account successfully!</strong>
-	</div>
-            		<?php
-            		header("Hikerhomepage.php");
-            		
+      try{
+      if (!$result) 
+      	throw new Exception("Error");
+      	
       }
-
-    }
-
+      catch(Exception $e)
+      {
+      	echo "Message:",$e->getMessage();
+      }
+           	echo "<div class='alert alert-success alert-dismissible'> <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><strong>You have created your account successfully!</strong>
+	             </div>";
+            		header("Hikerhomepage.php");
 }	    
 }
 }
-
-
-
+}
 ?>
 </body>
 </html>
