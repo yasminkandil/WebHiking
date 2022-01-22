@@ -4,10 +4,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
-body {
-  font-family: Arial;
-  font-size: 17px;
-  padding: 8px;
+
+form {
+      background-color: #fff;
+      max-width: 500px;
+      margin: 50px auto;
+      padding: 30px 20px;
+      box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.5);
+    }
+    body{
+background-image: url('image.jpg');
+ height: 200%; 
+  background-repeat: no-repeat;
+  background-size: cover;
+
 }
 
 * {
@@ -43,12 +53,7 @@ body {
   padding: 0 16px;
 }
 
-.container {
-  background-color: #f2f2f2;
-  padding: 5px 20px 15px 20px;
-  border: 1px solid lightgrey;
-  border-radius: 3px;
-}
+
 
 input[type=text] {
   width: 100%;
@@ -178,17 +183,24 @@ $pass="";
 $DB="hikingpr";
 $errormessage="";
 $conn=mysqli_connect("localhost","root","",$DB);
+include_once "StyleHome.html";
 ?>
-<h2>Checkout Form</h2>
+<div class="navbar">
+      <a href="Hikerhomepage.php">Home</a>
+    <a href="Contact_Us.php">Contact us</a>
+    <a href="rogrogshop.php">Cart <span class="glyphicon glyphicon-shopping-cart"></span></a>
+  </div>
 <div class="row">
   <div class="col-75">
     <div class="container">
       <form action="" method="POST">
+        <h2 style="color:#ff8c00;font:bold; text-align: center;">Checkout Form</h2>
+
       
         <div class="row">
           <div class="col-50">
-            <h3>Billing Address</h3>
             
+            <h3 style="color:#00008B;font:bold;">Billing Address</h3>
             <label for="adr"><i class="fa fa-address-card-o"></i> Address</label>
             <input type="text" id="adr" name="address" placeholder="15th Street" required>
             <label for="city"><i class="fa fa-institution"></i> City</label>
@@ -207,7 +219,7 @@ $conn=mysqli_connect("localhost","root","",$DB);
           </div>
 
           <div class="col-50">
-            <h3>Payment</h3>
+            <h3 style="color:#00008B;font:bold;">Payment</h3>
             
             <label for="fname">Accepted Cards </label>
             <div class="icon-container">
@@ -262,7 +274,8 @@ $cardnum=filter_var($_POST['cardnumber'],FILTER_SANITIZE_STRING);
 $Expmonth=filter_var($_POST['expmonth'],FILTER_SANITIZE_STRING);
 $Expyear=filter_var($_POST['expyear'],FILTER_SANITIZE_STRING);
 $CVV=filter_var($_POST['cvv'],FILTER_SANITIZE_STRING);
-$sql="update orders set Address='".$Address."',City= '".$city."',State='".$State."',Zip='".$Zip."',CardName='".$Cname."',CreditCardNum='".$cardnum."',ExpMonth='".$Expmonth."',ExpYear='".$Expyear."',CVV='".$CVV."' where user_id='".$_SESSION['ID']."'";
+$date = date('Y-m-d H:i:s');
+$sql="update orders set Address='".$Address."',City= '".$city."',State='".$State."',DateOfOrder='".$date."',Zip='".$Zip."',CardName='".$Cname."',CreditCardNum='".$cardnum."',ExpMonth='".$Expmonth."',ExpYear='".$Expyear."',CVV='".$CVV."',UserMail='".$_SESSION['username']."' where user_id='".$_SESSION['ID']."'";
       $result=mysqli_query($conn,$sql);
   header("Location:Hikerhomepage.php");
 
