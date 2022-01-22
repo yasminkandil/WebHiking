@@ -27,21 +27,19 @@ opacity: 2;
   color: black;
 }
 
-/* Float cancel and delete buttons and add an equal width */
 .modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
+  display: none; 
+  position: fixed; 
   z-index: 1; /* Sit on top */
   left: 0;
   top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
+  width: 100%; 
+  height: 100%; 
+  overflow: auto; 
   background-color: #474e5d;
   padding-top: 50px;
 }
 
-/* Modal Content/Box */
 .modal-content {
   background-color: #fefefe;
   margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
@@ -125,7 +123,10 @@ if (!$conn) {
     exit; 
 }
 else {
-  echo "Error deleting record"; // display error message if not delete
+ trigger_error("<div class='alert alert-danger alert-dismissible'>
+    <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+    <strong>Error deleting!</strong>
+  </div>",E_USER_WARNING); // display error message if not delete
 }
 }
 ?>">Delete</button>
@@ -141,22 +142,18 @@ else {
   <script type="text/javascript">
     var modal = document.getElementById("myModal");
 
-// Get the button that opens the modal
 var btton = document.getElementById("myBtn");
 
-// Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
-// When the user clicks the button, open the modal 
+
 btton.onclick = function() {
   modal.style.display = "block";
 }
 
-// When the user clicks on <span> (x), close the modal
 span.onclick = function() {
   modal.style.display = "none";
 }
 
-// When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
   if (event.target == modal) {
     modal.style.display = "none";
