@@ -41,7 +41,9 @@ a.hover{
 	  <style>
  body{
 background-image: url('image.jpg');
-opacity: 2;
+ height: 230%; 
+  background-repeat: no-repeat;
+  background-size: cover;
 
 }
 </style>
@@ -115,11 +117,7 @@ function validateGName(field){
 		else 
 			return "";
 	}
-	/*function checkpassword(){
-		if(form.cpass.value!=form.pass.value){
-		 alert("The two passwords don't match");
-		}*/
-		
+	
 	function validate(form){
 		fail='';
 		fail+=validateGName(form.pass.value);
@@ -165,23 +163,25 @@ checkinElem.setAttribute("min", dateTomorrow);
 checkinElem.onchange = function () {
     checkoutElem.setAttribute("min", this.value);
 }
-	/*function showpass() {
-  var x = document.getElementById("passs");
-  if (x.type === "password") {
-    x.type = "text";
-  } else {
-    x.type = "password";
-  }
-}*/
-/*function thanks(){
-	alert("you have created an account successfully ");
-}*/
+	
 </script>
+<?php
+  include_once "StyleHome.html";?>
+  <div class="navbar">
+     <a href="Hikerhomepage.php">Home</a></li>
+      <a href="Administrator.php">Add/Delete Admins</a>
+       <a href="messages.php">Chat</a> 
+      <a href="AdminGroups.php">Add/Edit/Delete groups</a>
+      <a href="HikersProfiles.php">Hikers Profiles</a>
+      <a href="HikersTrips.php">Hikers Trips</a>
+      <a href="OrdersSearch.php">Search Orders</a>
+
+  </div>
 <div class="container">
 	<div class="form-group">
 <form action="" method="Post" enctype="multipart/form-data" onsubmit='return validate(this)'>
 <br><br><br>
-<h2 style="color:#00008B;font:bold; text-align: center;">Create Group</h2>
+<h2 style="color:#ff8c00;font:bold; text-align: center;">Create Group</h2>
 
 <label style="color:#00008B;font:bold;" for="gname">Group Name:</label>
 <input type="text" name="gname" placeholder="Enter name" title="please enter your group name" class="form-control"required>
@@ -208,9 +208,9 @@ checkinElem.onchange = function () {
 <input type="text" name="placeN" placeholder="Enter place name" class="form-control" required></center>
 	<br>
 	<div class="elem-group inlined">
-    <label  style="color:#ff8c00;font:bold;" for="checkin-date"><span class="glyphicon glyphicon-calendar"></span>Check-in Date</label>
+    <label  style="color:#00008B;font:bold;" for="checkin-date"><span class="glyphicon glyphicon-calendar"></span>Check-in Date</label>
     <input type="date" id="checkin-date" name="checkin" class="form-control">
-    <label  style="color:#ff8c00;font:bold;" for="checkout-date"><span class="glyphicon glyphicon-calendar"></span>Check-out Date</label>
+    <label  style="color:#00008B;font:bold;" for="checkout-date"><span class="glyphicon glyphicon-calendar"></span>Check-out Date</label>
     <input type="date" id="checkout-date" name="checkout"class="form-control" >
   </div>
 	<label style="color:#00008B;font:bold;" for="price">Price:</label>
@@ -246,7 +246,7 @@ checkinElem.onchange = function () {
 	    <center>
 	    	<h2>
 		<br>
-		<a href="HomePage.php">Home Page</a>
+		<a href="Hikerhomepage.php">Home Page</a>
 	</h2>
 	</center>
 	</div>
@@ -254,7 +254,11 @@ checkinElem.onchange = function () {
 </form>
 <?php
 
-//echo $target_file;
+function OurError($errno,$errstr){
+	echo "ERROR $errstr";
+	die();
+}
+set_error_handler("OurError",E_USER_WARNING);
 
 if(isset($_POST["Create"]))
 {
@@ -289,8 +293,6 @@ $notIncluded=filter_var($_POST['Notincluded'],FILTER_SANITIZE_STRING);
 $otherTips=filter_var($_POST['otherT'],FILTER_SANITIZE_STRING);
 
 
-//include_once("conn.php");
-
 $conn=new mysqli("localhost","root","","hikingpr");
 if(isset($_POST['Create'])){
 
@@ -300,16 +302,18 @@ if(isset($_POST['Create'])){
       '".$_FILES['img5']['name']."','".$TripStart."','".$TripEnd."','".$Price."','".$included."','".$notIncluded."','".$otherTips."')" ;
       echo "$sql";
       $result=mysqli_query($conn,$sql);
-      if($result)
-      {
-      
-      	?>
-            	<div class="alert alert-success alert-dismissible">
-    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-		<strong>You have created your account successfully!</strong>
-	</div>
-            		<?php
+      try{
+      if (!$result) 
+      	throw new Exception("Error");
+      	
       }
+      catch(Exception $e)
+      {
+      	echo "Message:",$e->getMessage();
+      }
+           	echo "<div class='alert alert-success alert-dismissible'> <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><strong>You have added your group successfully!</strong>
+	             </div>";
+            		header("AdminGroups.php");
 
     }
 	 
