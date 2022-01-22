@@ -4,11 +4,9 @@
 	<title>Login Page</title>
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    
-    <!--Fontawesome CDN-->
+
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
-	<!--Custom styles-->
 	<link rel="stylesheet" type="text/css" href="styles.css">
 
 	<style type="text/css">
@@ -117,6 +115,8 @@ if(isset($_POST['loginn'])){
 
 	if($row=mysqli_fetch_array($result))//hiker	
 	{
+			$status = "Active now";
+    $sql2 = mysqli_query($conn, "UPDATE user SET status = '{$status}' WHERE unique_id = {$row['unique_id']}");
 		$_SESSION['ID']=$row[0];
 		$_SESSION['username']=$row['Email'];
 		$_SESSION['fname']=$row['FirstName'];
@@ -125,10 +125,13 @@ if(isset($_POST['loginn'])){
 		$_SESSION['mob']=$row['PhoneNumber'];
 		$_SESSION['Photo']=$row['Photo'];
 		$_SESSION['type']=$row['Type'];
-
+		$_SESSION['status']=$row['status'];
+	  $_SESSION['unique_id'] = $row['unique_id'];
 		header("Location:Hikerhomepage.php");
 	}
 	else if($row=mysqli_fetch_array($result1)){//admin
+		$status = "Active now";
+    $sql2 = mysqli_query($conn, "UPDATE user SET status = '{$status}' WHERE unique_id = {$row['unique_id']}");
        $_SESSION['ID']=$row[0];
 		$_SESSION['username']=$row['Email'];
 		$_SESSION['fname']=$row['FirstName'];
@@ -137,7 +140,8 @@ if(isset($_POST['loginn'])){
 		$_SESSION['mob']=$row['PhoneNumber'];
 		$_SESSION['Photo']=$row['Photo'];
 		$_SESSION['type']=$row['Type'];
-
+	$_SESSION['status']=$row['status'];
+	  $_SESSION['unique_id'] = $row['unique_id'];
 		header("Location:Hikerhomepage.php");
 	}
 	else if($row=mysqli_fetch_array($result2)){
@@ -166,12 +170,11 @@ if(isset($_POST['loginn'])){
 	}
 	else	
 	{
-		?>
-            	<div class="alert alert-danger">
-            		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
-		<strong>Invalid username or password</strong>
-	</div>
-            		<?php
+				 trigger_error("<div class='alert alert-danger alert-dismissible'>
+    <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+		<strong>Invalid username or password!</strong>
+	</div>",E_USER_WARNING);
+            	
 	}
 }
 ?>
