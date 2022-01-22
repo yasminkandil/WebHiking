@@ -39,6 +39,11 @@ a.hover{
 <body>
 	
 <?php
+function OurError($errno,$errstr){
+  echo "ERROR $errstr";
+  die();
+}
+set_error_handler("OurError",E_USER_WARNING);
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -71,17 +76,21 @@ $otherTips=$_POST['otherT'];
 	
     $edit = mysqli_query($conn,"update groups set Group_ID='$ID', GroupName='$GroupName' , GroupLocation='$GroupLocation' , Participants='$Participants' ,DestinationLink='$Dlink' ,  Describtion=' $desc', PlaceName='$PlaceName', TripStart=' $TripStart',  TripEnd=' $TripEnd',  Price=' $Price',  included=' $included',  notIncluded=' $notIncluded',  otherTips=' $otherTips' where Group_ID='$ID'");
 	
-    if($edit)
-    { 
-      echo $edit;
+    try{
+if(!$edit)
+throw new Exception("Error");
+        
+      }
+
+      catch(Exception $e)
+      {
+        echo "Message:",$e->getMessage();
+      }
+    
         mysqli_close($conn); // Close connection
         header("location:AdminGroups.php"); // redirects to all records page
         exit;
-    }
-    else
-    {
-        echo mysqli_error();
-    }    	
+      	
 }
 ?>
 <center> <h3>Update Data</h3></center>
