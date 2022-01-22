@@ -114,7 +114,7 @@ if(isset($_POST['checkk'])){
   <?php
   }
   else{
-   $sql2="INSERT into tripforhiker(Username,GroupSelected,Comments) values('".$_SESSION['username']."','".$_GET['Group_ID']."','".$_POST['cmmt']."')";
+   $sql2="INSERT into tripforhiker(Username,GroupSelected,Comments,user_id) values('".$_SESSION['username']."','".$_GET['Group_ID']."','".$_POST['cmmt']."','".$_SESSION['ID']."')";
     $result2=mysqli_query($conn,$sql2);
       if($result2)
       {       
