@@ -43,7 +43,7 @@ include_once "StyleHome.html";
 <div class="navbar">
       <a href="Hikerhomepage.php">Home</a>
     <a href="Contact_Us.php">Contact us</a>
-    <a href="ShopCart.php">Cart</a>
+    <a href="rogrogshop.php">Cart <span class="glyphicon glyphicon-shopping-cart"></span></a>
   </div>
 
 <div class="container">
