@@ -58,7 +58,7 @@ include_once("StyleHome.html");
        <div class="text-align:left"> <a href="TripHistory.php">Trip History</a></div>
 
    
-      <a href="ShopCart.php">Shop With Us</a>
+      <a href="rogrogshop.php">Shop With Us</a>
   </div>
 </div>
 <div class="container">  
