@@ -10,8 +10,6 @@
 * {
   box-sizing: border-box;
 }
-
-/* Style the body */
 body {
 font-family: Arial, Helvetica, sans-serif;
   margin: 0;
@@ -241,6 +239,8 @@ $result = mysqli_query($conn, "SELECT Photo FROM user where Type='hiker' and ID=
       <a href="Administrator.php">Add/Delete Admins</a>
       <a href="users.php">Chat</a> 
       <a href="AdminGroups.php">Add/Edit/Delete groups</a>
+      <a href="AllProducts.php">Add/Edit/Delete Products</a>
+      
       <a href="HikersProfiles.php">Hikers Profiles</a>
       <a href="AdminResponse.php">Suggestions of hikers</a>
       <a href="OrdersSearch.php">Search Orders</a>
