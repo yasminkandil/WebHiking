@@ -25,6 +25,8 @@
 <thead>
 	<tr>
 			<th>ID</th>
+			<th>Hiker Mail</th>
+
 			<th>Group Name</th>
 			<th>Group Location</th>
 			<th>Description</th>
@@ -48,6 +50,7 @@ $servername="localhost";
 		 	
 			?>
 			<td> <?php echo $row["ID"];?></td>
+			<td> <?php echo $row["Email"];?></td>
 			<td> <?php echo $row['GroupName'];?></td>
 			<td> <?php echo $row['GroupLocation'];?></td>
 		    <td><?php echo $row['Describtion'];?></td> 
