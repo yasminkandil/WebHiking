@@ -17,15 +17,22 @@ body{
 			box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.5);
 		
 		}
+
+		/* Styling form-control Class */
 		.form-control {
 			text-align: left;
 			margin-bottom: 25px;
 			margin-right: 50px;
 		}
+
+		/* Styling form-control Label */
 		.form-control label {
 			display: block;
 			margin-bottom: 10px;
 		}
+
+		/* Styling form-control input,
+		select, textarea */
 		.form-control input,
 		.form-control select,
 		.form-control textarea {
@@ -37,6 +44,13 @@ body{
 			width: 95%;
 		}
 
+		/* Styling form-control Radio
+		button and Checkbox */
+		.form-control input[type="radio"],
+		.form-control input[type="checkbox"] {
+			display: inline-block;
+			width: auto;
+		}
 		div.elem-group.inlined input {
   width: 95%;
   display: inline-block;
@@ -45,6 +59,7 @@ body{
 </head>
 <body>
 	<?php 
+	session_start();
 $servername="localhost";
     $username="root";
     $password="";
@@ -98,7 +113,7 @@ $checkin=filter_var($_POST['checkin'],FILTER_SANITIZE_STRING);
 $checkout=filter_var($_POST['checkout'],FILTER_SANITIZE_STRING);
 
 
-$sql="INSERT INTO groupssuggestions(GroupName,GroupLocation,Photo,Describtion,ActivitiesIdeas,CheckinDate,CheckoutDate)VALUES('".$suggestgroup."','".$place."','".$_FILES['image']['name']."','".$desc."','".$ideas."','".$checkin."','".$checkout."')";
+$sql="INSERT INTO groupssuggestions(Email,GroupName,GroupLocation,Photo,Describtion,ActivitiesIdeas,CheckinDate,CheckoutDate)VALUES('".$_SESSION['username']."','".$suggestgroup."','".$place."','".$_FILES['image']['name']."','".$desc."','".$ideas."','".$checkin."','".$checkout."')";
     $result=mysqli_query($conn,$sql);
      
   }
